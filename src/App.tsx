@@ -4,6 +4,7 @@ import Search from "./components/Search";
 import Spinner from "./components/Spinner";
 import MovieCard from "./components/MovieCard";
 import { useDebounce } from "react-use";
+import { getTrendingMovies, updateSearchCount } from "./libs/appwrite";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -24,6 +25,11 @@ interface Movie {
   release_date: string;
   original_language: string;
 }
+interface TrendingMovie {
+  $id: string;
+  title: string;
+  poster_url: string;
+}
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -32,6 +38,8 @@ const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+  const [trendingMovies, setTrendingMovies] = useState<TrendingMovie[]>([]);
 
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
 
@@ -52,11 +60,16 @@ const App = () => {
 
       const data = await response.json();
 
-      if (data.results) {
-        setMovieList(data.results);
-      } else {
-        setErrorMessage("No movies found.");
+      if (data.Response === "False") {
+        setErrorMessage(data.Error || "Failed to fetch movies");
         setMovieList([]);
+        return;
+      }
+
+      setMovieList(data.results || []);
+
+      if (query && data.results.length > 0) {
+        await updateSearchCount(query, data.results[0]);
       }
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
@@ -66,9 +79,23 @@ const App = () => {
     }
   };
 
+  const loadTrendingMovies = async () => {
+    try {
+      const movies = await getTrendingMovies();
+
+      setTrendingMovies(movies);
+    } catch (error) {
+      console.error(`Error fetching trending movies: ${error}`);
+    }
+  };
+
   useEffect(() => {
     fetchMovies(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
+
+  useEffect(() => {
+    loadTrendingMovies();
+  }, []);
 
   return (
     <main className="overflow-hidden">
@@ -84,8 +111,23 @@ const App = () => {
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </header>
 
+        {trendingMovies.length > 0 && (
+          <section className="trending">
+            <h2>Trending Movies</h2>
+
+            <ul>
+              {trendingMovies.map((movie, index) => (
+                <li key={movie.$id}>
+                  <p>{index + 1}</p>
+                  <img src={movie.poster_url} alt={movie.title} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <section className="all-movies">
-          <h2 className="mt-[20px]">All Movies</h2>
+          <h2>All Movies</h2>
 
           {isLoading ? (
             <Spinner />
