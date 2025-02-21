@@ -1,28 +1,25 @@
-# A Movie App
+# 🎬 A Movie App  
 
-### Description
+## 🍿 Description  
+Developed a **modern movie discovery app** that helps users **find, search, and explore trending movies** effortlessly. The app features a **powerful search function**, a **trending section**, and a **comprehensive movie catalog**. With a clean UI and smooth navigation, users can quickly browse through thousands of movies, view details, and stay updated with the latest releases.  
 
-- Created a Movie App with trending section
+## 🚀 Tech Stack  
+- **HTML (Atomic)** – Modular and scalable structure  
+- **CSS (Tailwind)** – Utility-first styling for a sleek and responsive design  
+- **JS** – Enhancing interactivity and dynamic content  
+- **Adaptive** – Fully optimized for all devices  
+- **React (19)** – Component-based architecture for seamless UI updates  
+- **ReactDOM** – Efficient rendering for a smooth experience  
+- **Fetch** – Fetching real-time movie data  
+- **Typescript** – Type-safe development for better reliability  
+- **DB (Appwrite)** – Secure and scalable backend storage  
 
-### Stack
+## 🛠️ Tools & Dependencies  
+- **ESLint** – Ensuring clean and consistent code  
+- **Vite** – Fast development and optimized builds  
 
-- HTML (Atomic)
-- CSS (Tailwind)
-- JS
-- Adaptive
-- React (19)
-- ReactDom
-- Fetch
-- Typescript
-- DB (appwrite)
+## 🌐 Demo Link  
+🔗 [Demo](https://AndriiZakharenko.github.io/a-movie-app)  
 
-### Tools
-
-- ESlint
-- Vite
-
-### Demo Links
-- [Demo](https://AndriiZakharenko.github.io/a-movie-app)
-
-### Inspired by 
-- [Adrian Hajdin](https://github.com/adrianhajdin)
+## ⭐ Inspiration  
+🔗 [Adrian Hajdin](https://github.com/adrianhajdin)  
